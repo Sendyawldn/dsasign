@@ -27,8 +27,22 @@ type ApiResponse = {
   };
 };
 
+function formatFileSize(bytes: number) {
+  if (bytes < 1024) {
+    return `${bytes} B`;
+  }
+
+  const kilobytes = bytes / 1024;
+  if (kilobytes < 1024) {
+    return `${kilobytes.toFixed(1)} KB`;
+  }
+
+  return `${(kilobytes / 1024).toFixed(1)} MB`;
+}
+
 export function SignWorkflow() {
   const [documentFile, setDocumentFile] = useState<File | null>(null);
+  const [documentInputKey, setDocumentInputKey] = useState(0);
   const [documentHash, setDocumentHash] = useState("");
   const [x, setX] = useState("");
   const [p, setP] = useState("");
@@ -40,11 +54,27 @@ export function SignWorkflow() {
     "Upload a document and paste the private key values to seal it.",
   );
   const [error, setError] = useState<string | null>(null);
+  const [errorDetails, setErrorDetails] = useState<string[]>([]);
+
+  const hasDocumentInput = Boolean(documentFile || documentHash.trim());
+  const canSubmit =
+    hasDocumentInput && Boolean(x.trim() && p.trim() && q.trim() && g.trim());
+
+  function resetDocumentSelection() {
+    setDocumentFile(null);
+    setDocumentInputKey((value) => value + 1);
+    setMessage(
+      "Upload a document and paste the private key values to seal it.",
+    );
+    setError(null);
+    setErrorDetails([]);
+  }
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setLoading(true);
     setError(null);
+    setErrorDetails([]);
 
     try {
       const formData = new FormData();
@@ -68,6 +98,7 @@ export function SignWorkflow() {
       const payload = (await response.json()) as ApiResponse;
 
       if (!response.ok || !payload.success || !payload.data) {
+        setErrorDetails(payload.error?.details ?? []);
         throw new Error(
           payload.error?.message ||
             payload.message ||
@@ -113,15 +144,49 @@ export function SignWorkflow() {
                     ? documentFile.name
                     : "Choose a PDF, TXT, or DOCX file"}
                 </span>
+                {documentFile ? (
+                  <span className="text-xs text-muted-foreground">
+                    {formatFileSize(documentFile.size)} ·{" "}
+                    {documentFile.type || "unknown type"}
+                  </span>
+                ) : null}
                 <input
+                  key={documentInputKey}
                   id="document"
                   type="file"
+                  accept=".pdf,.txt,.docx"
                   className="sr-only"
-                  onChange={(event) =>
-                    setDocumentFile(event.target.files?.[0] ?? null)
-                  }
+                  onChange={(event) => {
+                    const selectedFile = event.target.files?.[0] ?? null;
+                    setDocumentFile(selectedFile);
+                    setError(null);
+                    setErrorDetails([]);
+                    if (selectedFile) {
+                      setMessage(
+                        `Selected ${selectedFile.name}. Submit to create the signature.`,
+                      );
+                    }
+                  }}
                 />
               </label>
+              <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+                <span>
+                  {documentFile
+                    ? "File input active. The hash fallback will be ignored."
+                    : "No file selected. You can use a document hash instead."}
+                </span>
+                {documentFile ? (
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="h-8 rounded-full px-3 text-xs"
+                    onClick={resetDocumentSelection}
+                  >
+                    Clear file
+                  </Button>
+                ) : null}
+              </div>
             </div>
 
             <div className="grid gap-2">
@@ -132,7 +197,12 @@ export function SignWorkflow() {
                 onChange={(event) => setDocumentHash(event.target.value)}
                 placeholder="sha256:..."
                 className="h-11 rounded-xl"
+                disabled={Boolean(documentFile)}
               />
+              <p className="text-xs text-muted-foreground">
+                Paste a hash only when you are not uploading the document
+                itself.
+              </p>
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
@@ -186,7 +256,7 @@ export function SignWorkflow() {
             <div className="flex flex-wrap gap-3">
               <Button
                 type="submit"
-                disabled={loading}
+                disabled={loading || !canSubmit}
                 className="h-11 rounded-full px-5"
               >
                 {loading ? (
@@ -197,11 +267,34 @@ export function SignWorkflow() {
                 {loading ? "Signing" : "Sign document"}
               </Button>
             </div>
+
+            {!hasDocumentInput ? (
+              <p className="text-sm text-rose-600">
+                Upload a document or provide a document hash before signing.
+              </p>
+            ) : null}
           </form>
 
-          <div className="mt-6 rounded-2xl border border-border bg-background/80 p-4 text-sm">
-            <p className="font-medium text-foreground">Status</p>
-            <p className="mt-1 text-muted-foreground">{error || message}</p>
+          <div
+            className={`mt-6 rounded-2xl border p-4 text-sm ${
+              error
+                ? "border-rose-200 bg-rose-50 text-rose-900"
+                : "border-border bg-background/80 text-foreground"
+            }`}
+          >
+            <p className="font-medium">Status</p>
+            <p
+              className={`mt-1 ${error ? "text-rose-800" : "text-muted-foreground"}`}
+            >
+              {error || message}
+            </p>
+            {errorDetails.length ? (
+              <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-rose-700">
+                {errorDetails.map((detail) => (
+                  <li key={detail}>{detail}</li>
+                ))}
+              </ul>
+            ) : null}
           </div>
         </CardContent>
       </Card>
