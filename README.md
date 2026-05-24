@@ -75,6 +75,7 @@ Run the basic checks before shipping changes.
 
 ```bash
 npm run lint
+npm test
 npm run build
 ```
 
