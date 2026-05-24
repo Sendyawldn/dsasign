@@ -1,5 +1,9 @@
 // src/lib/elgamal.ts
 
+import { randomBytes } from "crypto";
+
+import type { KeyGenerationResult, WorkflowStep } from "./contracts";
+
 /**
  * Modular Exponentiation: Menghitung (base^exp) % mod
  * Sangat penting untuk menghitung Public Key (y) dan komponen Signature (r, v).
@@ -28,33 +32,33 @@ export function modPow(base: bigint, exp: bigint, mod: bigint): bigint {
  * Mengembalikan nilai x sedemikian sehingga (a * x) % m = 1
  */
 export function modInverse(a: bigint, m: bigint): bigint {
-  const m0 = m;
-  let y = 0n;
-  let x = 1n;
-
-  if (m === 1n) return 0n;
-
-  while (a > 1n) {
-    // q adalah hasil bagi
-    const q = a / m;
-    let t = m;
-
-    // m adalah sisa (remainder)
-    m = a % m;
-    a = t;
-    t = y;
-
-    // Update y dan x
-    y = x - q * y;
-    x = t;
+  if (m <= 0n) {
+    throw new Error("Modulus must be positive");
   }
 
-  // Pastikan x positif
-  if (x < 0n) {
-    x += m0;
+  const modulus = m;
+  const value = ((a % modulus) + modulus) % modulus;
+  let previousT = 0n;
+  let currentT = 1n;
+  let previousR = modulus;
+  let currentR = value;
+
+  while (currentR !== 0n) {
+    const quotient = previousR / currentR;
+
+    [previousT, currentT] = [currentT, previousT - quotient * currentT];
+    [previousR, currentR] = [currentR, previousR - quotient * currentR];
   }
 
-  return x;
+  if (previousR !== 1n) {
+    throw new Error("Modular inverse does not exist");
+  }
+
+  if (previousT < 0n) {
+    previousT += modulus;
+  }
+
+  return previousT;
 }
 
 /**
@@ -62,10 +66,14 @@ export function modInverse(a: bigint, m: bigint): bigint {
  * Kritis untuk proses Signing. Menggunakan built-in Node.js crypto.
  * Catatan: Fungsi ini hanya boleh berjalan di sisi server (API Routes).
  */
-import { randomBytes } from "crypto";
-
 export function generateRandomBigInt(min: bigint, max: bigint): bigint {
-  const range = max - min;
+  if (min > max) {
+    throw new Error(
+      "Minimum value must be less than or equal to maximum value",
+    );
+  }
+
+  const range = max - min + 1n;
   const hexLen = range.toString(16).length;
   const byteLen = Math.ceil(hexLen / 2);
 
@@ -119,7 +127,7 @@ export function isProbablePrime(n: bigint, k = 5): boolean {
 export async function generateKeyPair(
   qBits: number = 160,
   pBits: number = 1024,
-) {
+): Promise<KeyGenerationResult> {
   // 1. Pilih bilangan prima q (160-bit)
   const qMin = 1n << BigInt(qBits - 1);
   const qMax = (1n << BigInt(qBits)) - 1n;
@@ -162,7 +170,34 @@ export async function generateKeyPair(
   // 5. Hitung public key y = g^x mod p
   const y = modPow(g, x, p);
 
-  // 6. Output struktur data JSON yang ketat sesuai instruksi dokumen
+  const steps: WorkflowStep[] = [
+    {
+      label: "Prime q",
+      detail: "Generated a prime q in the requested bit range.",
+      value: q.toString(),
+    },
+    {
+      label: "Prime p",
+      detail: "Generated p so that p = kq + 1 and p is prime.",
+      value: p.toString(),
+    },
+    {
+      label: "Generator g",
+      detail: "Derived a subgroup generator from the chosen domain parameters.",
+      value: g.toString(),
+    },
+    {
+      label: "Private key x",
+      detail: "Selected a private key inside the valid range.",
+      value: x.toString(),
+    },
+    {
+      label: "Public key y",
+      detail: "Computed y = g^x mod p for the signer.",
+      value: y.toString(),
+    },
+  ];
+
   const timestamp = new Date().toISOString();
 
   return {
@@ -185,5 +220,6 @@ export async function generateKeyPair(
       },
       warning: "JANGAN PERNAH BAGIKAN FILE INI!",
     },
+    steps,
   };
 }

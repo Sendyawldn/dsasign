@@ -1,0 +1,931 @@
+{
+  "mode": "dynamic",
+  "status": "active",
+  "project": {
+    "name": "dsasign",
+    "domain": "Web application",
+    "context": "Next.js 16 App Router project for ElGamal/DSA-style key generation, signing, and verification.",
+    "runtimeConstraint": "Next.js App Router on Node.js runtime",
+    "architectureConstraint": "single-app architecture with route handlers and shared server crypto modules"
+  },
+  "repoEvidence": {
+    "designEvidenceSummary": {
+      "summaryVersion": "v2",
+      "source": "repo-scan + project brief",
+      "scanRootRelativePaths": ["src", "components"],
+      "scannedFileCount": 19,
+      "keySignals": [
+        "App Router routes exist for /keygen, /sign, and /verify",
+        "Shared crypto code already exists in src/lib",
+        "Tailwind-based component primitives are already installed",
+        "The landing page is still the create-next-app scaffold"
+      ]
+    }
+  },
+  "designFlexibilityPolicy": {
+    "mode": "locked-outcomes-flexible-expression",
+    "lockedOutcomeTypes": [
+      "confirmed-user-goals",
+      "repo-evidence-and-runtime-constraints",
+      "accessibility-and-production-readiness",
+      "forbidden-patterns-and-safety-gates",
+      "user-approved-brand-or-continuity-decisions"
+    ],
+    "flexibleExpressionAxes": [
+      "exact-palette-primitives",
+      "font-family-selection",
+      "radius-shadow-and-surface-treatment",
+      "component-kit-theme-mapping",
+      "signature-move-implementation",
+      "literal-anchor-artifacts",
+      "spatial-metaphor-and-place-language"
+    ],
+    "tokenLockingRule": "Semantic roles are required, but exact primitive values stay flexible until repo evidence, accessibility validation, implementation constraints, or explicit user approval locks them."
+  },
+  "conceptualAnchor": {
+    "mode": "required-when-no-external-research",
+    "seedMode": "selection-policy-only",
+    "anchorReference": "tamper-evident evidence envelope",
+    "specificReferencePoint": "the flap seal, custody label, and stamped verification mark on a document envelope",
+    "rationale": "The product moves a document through a signer/verifier chain of custody, so an evidence envelope is a concrete artifact that naturally maps to sealed states, verification marks, and document identity.",
+    "signatureMotion": "seal the record, then confirm or reject it with a short, decisive stamp-like transition",
+    "typographicDecision": "use a readable sans-serif for explanation and Geist Mono for hashes, primes, and signature values so the evidence reads as data instead of decoration",
+    "visualRiskBudget": {
+      "mode": "high-distinctiveness-with-accessibility-and-performance-guardrails",
+      "allowRichMotionAndMicroInteraction": true,
+      "rejectTimidDefaultWhenAnchorSupportsExpressiveUi": true,
+      "rejectDependencyFearAsDownshiftReason": true,
+      "requireReducedMotionFallback": true
+    },
+    "motionRiskBudget": {
+      "micro": "120-180ms",
+      "layout": "220-360ms",
+      "stagger": "bounded and small",
+      "reducedMotion": "replace the stamp-like transition with an instant state change and clear text update"
+    },
+    "cohesionChecks": [
+      "no-dashboard-mental-model",
+      "motion-derived-from-anchor",
+      "sealed-state-language",
+      "document-first-hierarchy"
+    ],
+    "categoryCodes": {
+      "typographyClusters": [
+        {
+          "description": "utility sans plus monospace code blocks, compact numerals, and no role contrast",
+          "specificityEvidence": "This reads like a developer tool that surfaces numbers and code, not a signer/verifier workflow.",
+          "categoryDefaultReason": "Technical web apps fall into this typography pattern when no stronger product anchor exists.",
+          "rejectionNote": "I will not ship this because it turns the product into a console; DSASign needs explainers and math with explicit role contrast."
+        },
+        {
+          "description": "neutral SaaS sans with every label and value at the same weight and size",
+          "specificityEvidence": "This is the standard admin-panel look that flattens meaning into evenly weighted form fields.",
+          "categoryDefaultReason": "Without intervention, product UIs often copy the generic SaaS hierarchy of one family and one weight.",
+          "rejectionNote": "I will not ship this because it hides the distinction between instructions, hashes, keys, and results."
+        },
+        {
+          "description": "editorial serif headline with tiny metadata and subdued data rows",
+          "specificityEvidence": "This resembles a reading product or article system more than an interactive signing tool.",
+          "categoryDefaultReason": "Projects that want authority often overcorrect into editorial serif styling.",
+          "rejectionNote": "I will not ship this because DSASign needs trust and clarity, not a literary facade."
+        }
+      ],
+      "paletteClusters": [
+        {
+          "description": "dark slate surface with one cyan accent and monochrome chrome",
+          "specificityEvidence": "This is the familiar dev-tool and terminal palette that erases document context.",
+          "categoryDefaultReason": "Technical apps default to dark neutral surfaces because they feel safe and legible.",
+          "rejectionNote": "I will not ship this because the product should feel like evidence handling, not a terminal clone."
+        },
+        {
+          "description": "gray-white admin surface with one blue accent and muted borders",
+          "specificityEvidence": "This is the common SaaS admin palette that makes every screen look interchangeable.",
+          "categoryDefaultReason": "Component kits often ship this as the default light theme.",
+          "rejectionNote": "I will not ship this because the app needs a document-seal identity that survives renaming to another product."
+        },
+        {
+          "description": "purple-blue gradient hero with glassy highlights and soft glow",
+          "specificityEvidence": "This is the standard AI-startup landing palette that turns every product into a mood board.",
+          "categoryDefaultReason": "Marketing and AI themes often drift into gradient spectacle when no domain anchor exists.",
+          "rejectionNote": "I will not ship this because the product is a workflow, not a pitch deck."
+        }
+      ],
+      "layoutClusters": [
+        {
+          "description": "top nav plus three-card KPI row above a data table",
+          "specificityEvidence": "This is the generic SaaS admin layout that treats every task like reporting.",
+          "categoryDefaultReason": "Dashboard products are often composed from the same left-to-right hierarchy of cards and tables.",
+          "rejectionNote": "I will not ship this because DSASign is a guided custody flow, not a metrics console."
+        },
+        {
+          "description": "centered hero with three feature tiles and a footer CTA strip",
+          "specificityEvidence": "This is the standard marketing site composition that sells a feature list instead of solving a task.",
+          "categoryDefaultReason": "New web products frequently begin with brochure structure by habit.",
+          "rejectionNote": "I will not ship this because the first screen must move users into key generation, signing, or verification."
+        },
+        {
+          "description": "single column upload form with no supporting hierarchy or status rail",
+          "specificityEvidence": "This is the fallback layout for file utilities that hide the workflow behind one big form.",
+          "categoryDefaultReason": "Simple upload tools often collapse into one centered form card.",
+          "rejectionNote": "I will not ship this because the app needs visible evidence, status, and explanation at the same time."
+        }
+      ],
+      "motionClusters": [
+        {
+          "description": "generic fade-and-slide transitions with no state-specific choreography",
+          "specificityEvidence": "This is the default modern-web motion package that says nothing about the product.",
+          "categoryDefaultReason": "Many apps use the same soft entrance motion for every state change.",
+          "rejectionNote": "I will not ship this because DSASign needs a seal, not a nudge."
+        },
+        {
+          "description": "springy card hover and parallax drift on every surface",
+          "specificityEvidence": "This is the typical motion language of portfolio and landing pages.",
+          "categoryDefaultReason": "Animation libraries make hover springs the easiest expressive effect.",
+          "rejectionNote": "I will not ship this because the workflow should feel verified, not decorative."
+        },
+        {
+          "description": "toast-only feedback with modal popups for every result",
+          "specificityEvidence": "This is the common app fallback when no motion grammar is designed.",
+          "categoryDefaultReason": "Teams often rely on notifications instead of stateful choreography.",
+          "rejectionNote": "I will not ship this because the result needs to be visible in place on the document workflow surface."
+        }
+      ],
+      "imageryClusters": [
+        {
+          "description": "stock certificate or document photos as decorative hero art",
+          "specificityEvidence": "This is the generic finance-and-documents hero image treatment.",
+          "categoryDefaultReason": "Products that mention security often drift into stock document photography.",
+          "rejectionNote": "I will not ship this because the product should show real interface states, not pretend paperwork."
+        },
+        {
+          "description": "shield icons, locks, and abstract security illustrations everywhere",
+          "specificityEvidence": "This is the default visual shorthand for trust products.",
+          "categoryDefaultReason": "Security tools often lean on literal trust icons to compensate for weak hierarchy.",
+          "rejectionNote": "I will not ship this because trust should come from the chain-of-custody grammar, not repeated icon wallpaper."
+        },
+        {
+          "description": "no imagery at all beyond utility icons and data objects",
+          "specificityEvidence": "This is the overcorrected minimalist pattern that removes the artifact story entirely.",
+          "categoryDefaultReason": "Technical tools sometimes delete imagery without replacing the missing semantic anchor.",
+          "rejectionNote": "I will not ship this because the first viewport needs one concrete artifact reference to explain the workflow."
+        }
+      ],
+      "candidateEntries": [
+        {
+          "surface": "typography",
+          "description": "utility sans plus monospace code blocks, compact numerals, and no role contrast",
+          "specificityEvidence": "This reads like a developer tool that surfaces numbers and code, not a signer/verifier workflow.",
+          "categoryDefaultReason": "Technical web apps fall into this typography pattern when no stronger product anchor exists.",
+          "rejectionNote": "I will not ship this because it turns the product into a console; DSASign needs explainers and math with explicit role contrast."
+        },
+        {
+          "surface": "palette",
+          "description": "dark slate surface with one cyan accent and monochrome chrome",
+          "specificityEvidence": "This is the familiar dev-tool and terminal palette that erases document context.",
+          "categoryDefaultReason": "Technical apps default to dark neutral surfaces because they feel safe and legible.",
+          "rejectionNote": "I will not ship this because the product should feel like evidence handling, not a terminal clone."
+        },
+        {
+          "surface": "layout",
+          "description": "top nav plus three-card KPI row above a data table",
+          "specificityEvidence": "This is the generic SaaS admin layout that treats every task like reporting.",
+          "categoryDefaultReason": "Dashboard products are often composed from the same left-to-right hierarchy of cards and tables.",
+          "rejectionNote": "I will not ship this because DSASign is a guided custody flow, not a metrics console."
+        },
+        {
+          "surface": "motion",
+          "description": "generic fade-and-slide transitions with no state-specific choreography",
+          "specificityEvidence": "This is the default modern-web motion package that says nothing about the product.",
+          "categoryDefaultReason": "Many apps use the same soft entrance motion for every state change.",
+          "rejectionNote": "I will not ship this because DSASign needs a seal, not a nudge."
+        },
+        {
+          "surface": "imagery",
+          "description": "stock certificate or document photos as decorative hero art",
+          "specificityEvidence": "This is the generic finance-and-documents hero image treatment.",
+          "categoryDefaultReason": "Products that mention security often drift into stock document photography.",
+          "rejectionNote": "I will not ship this because the product should show real interface states, not pretend paperwork."
+        }
+      ]
+    },
+    "morphologicalExploration": {
+      "mode": "agent-must-complete-before-ui-implementation",
+      "blockingByDefault": true,
+      "dimensions": [
+        {
+          "name": "hierarchy",
+          "values": [
+            "single decisive action with supporting evidence",
+            "two-column evidence and action split",
+            "stacked steps with one dominant panel",
+            "ledger strip with side annotations",
+            "document-first frame with a side rail"
+          ]
+        },
+        {
+          "name": "density",
+          "values": [
+            "breathing room with sparse fields",
+            "balanced form density",
+            "medium-high density with clear clusters",
+            "dense but still scan-friendly",
+            "compact and technical"
+          ]
+        },
+        {
+          "name": "typeRoleContrast",
+          "values": [
+            "sans body plus mono data",
+            "sans body plus semibold section heads",
+            "display + mono hybrid",
+            "quiet serif labels plus mono data",
+            "strong role contrast with numeric emphasis"
+          ]
+        },
+        {
+          "name": "motionLanguage",
+          "values": [
+            "seal-like confirmation",
+            "instant state swap with stamped outcome",
+            "short reveal with bounded stagger",
+            "panel slide for route changes",
+            "noisy motion suppressed, state still clear"
+          ]
+        },
+        {
+          "name": "stateVocabulary",
+          "values": [
+            "sealed / unsealed / pending / verified / rejected",
+            "ready / processing / complete / invalid / exported",
+            "draft / signed / shared / checked / failed",
+            "open / locked / review / pass / fail",
+            "assembled / submitted / confirmed / disputed / resolved"
+          ]
+        }
+      ],
+      "matrix": [
+        [
+          "single decisive action with supporting evidence",
+          "balanced form density",
+          "sans body plus mono data",
+          "seal-like confirmation",
+          "sealed / unsealed / pending / verified / rejected"
+        ],
+        [
+          "two-column evidence and action split",
+          "medium-high density with clear clusters",
+          "sans body plus semibold section heads",
+          "instant state swap with stamped outcome",
+          "ready / processing / complete / invalid / exported"
+        ],
+        [
+          "stacked steps with one dominant panel",
+          "dense but still scan-friendly",
+          "display + mono hybrid",
+          "short reveal with bounded stagger",
+          "draft / signed / shared / checked / failed"
+        ],
+        [
+          "ledger strip with side annotations",
+          "compact and technical",
+          "quiet serif labels plus mono data",
+          "panel slide for route changes",
+          "open / locked / review / pass / fail"
+        ],
+        [
+          "document-first frame with a side rail",
+          "breathing room with sparse fields",
+          "strong role contrast with numeric emphasis",
+          "noisy motion suppressed, state still clear",
+          "assembled / submitted / confirmed / disputed / resolved"
+        ]
+      ],
+      "selectedCombination": {
+        "hierarchy": "stacked steps with one dominant panel",
+        "density": "medium-high density with clear clusters",
+        "typeRoleContrast": "sans body plus mono data",
+        "motionLanguage": "seal-like confirmation",
+        "stateVocabulary": "sealed / unsealed / pending / verified / rejected"
+      },
+      "uncomfortableCombination": {
+        "combinationLabel": "ledger strip with side annotations + compact density + quiet serif labels",
+        "discomfortReason": "It risks feeling too formal and too dense for a web app at first glance.",
+        "productLogicJustification": "The discomfort is useful because the product is literally about proving custody and validity. A more formal layout makes the signature and verification state feel consequential instead of playful."
+      }
+    },
+    "anchorCandidates": {
+      "mode": "agent-must-complete-before-ui-implementation",
+      "blockingByDefault": true,
+      "candidates": [
+        {
+          "anchorReference": "tamper-evident evidence envelope",
+          "conceptualFamily": "forensic custody artifact",
+          "jobFit": "Matches the signer/verifier workflow because a document is carried, sealed, and checked for tampering.",
+          "hierarchyImplication": "One dominant document panel with a visible seal state and supporting custody metadata.",
+          "densityImplication": "Medium density with enough metadata to make the state believable but not so much that the seal is lost.",
+          "typeImplication": "Readable sans for instructions, monospace for hashes, primes, and signature values.",
+          "stateLanguage": "sealed, unsealed, pending, verified, rejected",
+          "motionImplication": "A short stamp-like transition when the envelope is sealed or rejected.",
+          "whatItRulesOut": "Generic dashboard chrome, brochure layouts, and decorative security icon wallpaper.",
+          "renameTest": {
+            "testCategories": [
+              "home inventory tracker",
+              "medical intake kiosk",
+              "music licensing portal"
+            ],
+            "results": ["incoherent", "incoherent", "incoherent"],
+            "verdict": "STRONG PASS"
+          },
+          "categoryCodeOverlap": [
+            "dev-tool default typography",
+            "SaaS admin palette",
+            "security-icon imagery"
+          ]
+        },
+        {
+          "anchorReference": "notarial seal press",
+          "conceptualFamily": "formal authorization mechanism",
+          "jobFit": "Maps well to signing because the action is authoritative and produces a visible mark.",
+          "hierarchyImplication": "A strong primary action and a result surface that feels pressed into place.",
+          "densityImplication": "Dense enough to show math, but with a ceremonial pause around the result.",
+          "typeImplication": "Data in mono, explanation in sans, with emphatic numerals for signature output.",
+          "stateLanguage": "pressed, set, lifted, verified, denied",
+          "motionImplication": "The result should land with compression and release rather than drifting in.",
+          "whatItRulesOut": "Fuzzy onboarding copy, generic hero layouts, and too-soft notification-only feedback.",
+          "renameTest": {
+            "testCategories": [
+              "event ticketing admin",
+              "warehouse scanner app",
+              "school transcript service"
+            ],
+            "results": ["incoherent", "incoherent", "incoherent"],
+            "verdict": "STRONG PASS"
+          },
+          "categoryCodeOverlap": [
+            "editorial serif typography",
+            "SaaS admin layout"
+          ]
+        },
+        {
+          "anchorReference": "museum accession card",
+          "conceptualFamily": "archival record artifact",
+          "jobFit": "Works because the app needs to preserve identity, origin, and verification metadata as a record.",
+          "hierarchyImplication": "Metadata can sit beside the document in a tidy accession-style frame.",
+          "densityImplication": "Lower density than the selected anchor, with careful labeling and catalog structure.",
+          "typeImplication": "Serif or sans labels can be paired with tabular numerals for record fields.",
+          "stateLanguage": "cataloged, uncataloged, checked, disputed, archived",
+          "motionImplication": "A record can slip into an archive slot when verified.",
+          "whatItRulesOut": "Brochure tropes, marketing imagery, and decorative security symbols.",
+          "renameTest": {
+            "testCategories": [
+              "field service log",
+              "loan underwriting portal",
+              "student records system"
+            ],
+            "results": ["incoherent", "incoherent", "coherent"],
+            "verdict": "PASS"
+          },
+          "categoryCodeOverlap": [
+            "editorial typography",
+            "single-column upload form"
+          ]
+        },
+        {
+          "anchorReference": "customs manifest pouch",
+          "conceptualFamily": "border-control document packet",
+          "jobFit": "Useful because each upload moves through a declared set of contents and an inspection step.",
+          "hierarchyImplication": "A manifest strip for contents, a main document area, and a clear inspection outcome.",
+          "densityImplication": "Moderate-to-high density because the workflow needs declared fields and verification state.",
+          "typeImplication": "Monospace for declared values, sans for instructions, strong numerals for key parameters.",
+          "stateLanguage": "declared, inspected, cleared, held, rejected",
+          "motionImplication": "Inspection should feel like a brief check, not a lingering animation.",
+          "whatItRulesOut": "Abstract brand art and overly playful upload metaphors.",
+          "renameTest": {
+            "testCategories": [
+              "parcel tracking app",
+              "tax document portal",
+              "research lab inventory"
+            ],
+            "results": ["incoherent", "coherent", "incoherent"],
+            "verdict": "PASS"
+          },
+          "categoryCodeOverlap": [
+            "dev-tool default layout",
+            "single-column upload form"
+          ]
+        },
+        {
+          "anchorReference": "archival ledger binder",
+          "conceptualFamily": "record book system",
+          "jobFit": "Fits because the app is a readable record of who signed what and whether the signature still matches.",
+          "hierarchyImplication": "A ledger spine with clear sections for key generation, signing, and verification.",
+          "densityImplication": "Compact but structured, with room for notes, hashes, and step-by-step values.",
+          "typeImplication": "A data-friendly sans and mono pairing with tabular numerals.",
+          "stateLanguage": "recorded, open, closed, amended, confirmed",
+          "motionImplication": "A page-like turn is acceptable for route changes, but the state update itself should be brisk.",
+          "whatItRulesOut": "Floating-card UI, glassmorphism, and decorative gradients.",
+          "renameTest": {
+            "testCategories": [
+              "course grading portal",
+              "fleet maintenance log",
+              "grant application archive"
+            ],
+            "results": ["incoherent", "incoherent", "coherent"],
+            "verdict": "PASS"
+          },
+          "categoryCodeOverlap": [
+            "SaaS admin palette",
+            "generic dashboard layout"
+          ]
+        }
+      ]
+    },
+    "finalAnchorContract": {
+      "name": "tamper-evident evidence envelope",
+      "anchorReference": "tamper-evident evidence envelope",
+      "agentResearchMode": "internal-evidence-only",
+      "sourceDomain": "workflow-and-custody-systems",
+      "specificReferencePoint": "the flap seal, custody label, and stamped verification mark on a document envelope",
+      "rationale": "The workflow is a proof-of-integrity journey, so a sealable evidence envelope gives the UI a concrete structure for document, key, signature, and verification states.",
+      "signatureMotion": "seal, verify, and reject with short stamp-like transitions",
+      "typographicDecision": "use readable sans for explanation and Geist Mono for hashes, parameters, and signatures",
+      "derivedTokenLogic": {
+        "anchorReference": "tamper-evident evidence envelope",
+        "colorDerivationSource": "Use archive-like surfaces, deep ink text, verification green, warning amber, and rejection red because the anchor is a sealed evidence artifact rather than a brochure or dashboard.",
+        "spacingDerivationSource": "Use ledger spacing with 8px multiples and slightly wider gaps around state and evidence sections so the envelope contents stay legible.",
+        "typographyDerivationSource": "Use a sans/mono split so human instructions read separately from cryptographic values.",
+        "motionDerivationSource": "Use seal-like transitions and brief confirmation motion to mirror the act of stamping or rejecting an envelope.",
+        "colorSpace": "OKLCH for new tokens, with existing token formats preserved where the repo already uses them.",
+        "spatialBaseUnit": "8px base with 16px, 24px, 32px, and 48px multiples for evidence spacing.",
+        "typeScaleMethod": "fluid clamp() scale with a stronger role contrast between labels, instructions, and numeric data.",
+        "motionBudget": "short micro-interactions, bounded layout shifts, and reduced-motion replacements for all confirmation states.",
+        "validationRule": "Every semantic token role must trace to anchorReference; exact primitives stay flexible unless repo evidence, accessibility, implementation constraints, or explicit user approval locks them.",
+        "tokenContinuityClassification": {
+          "typography": "continuity-retained",
+          "palette": "newly-introduced",
+          "motion": "anchor-derived",
+          "spacing": "anchor-derived"
+        }
+      },
+      "visualRiskBudget": {
+        "mode": "high-distinctiveness-with-accessibility-and-performance-guardrails",
+        "allowRichMotionAndMicroInteraction": true,
+        "rejectTimidDefaultWhenAnchorSupportsExpressiveUi": true,
+        "rejectDependencyFearAsDownshiftReason": true,
+        "requireReducedMotionFallback": true
+      },
+      "motionRiskBudget": {
+        "micro": "120-180ms",
+        "layout": "220-360ms",
+        "stagger": "bounded and small",
+        "reducedMotion": "instant state change with clear textual confirmation"
+      },
+      "cohesionChecks": [
+        "no-dashboard-mental-model",
+        "motion-derived-from-anchor",
+        "sealed-state-language",
+        "document-first-hierarchy"
+      ]
+    }
+  },
+  "sourceFreshness": {
+    "freshnessAnchorDate": "2026-05-24",
+    "rollingLookbackMonths": 24,
+    "sourceFreshnessStatus": "pending-live-verification",
+    "officialDocsRequiredFor": [
+      "browser-capability",
+      "framework-setup",
+      "ui-library",
+      "animation-library",
+      "3d-canvas-charting-library",
+      "styling-tool",
+      "accessibility-claim"
+    ],
+    "oldSourcePolicy": "older sources may support durable principles only when labeled old-timeless; they cannot prove current-year modernity",
+    "userConceptAdaptation": "Treat the repo brief as the first-class constraint and support it with evidence; do not replace it with a trend default.",
+    "disagreements": [],
+    "evidenceTable": [
+      {
+        "claim": "The app is a Next.js App Router project with route handlers and shared crypto modules.",
+        "sourceUrl": "repo-evidence",
+        "sourceType": "repo-evidence",
+        "publishedOrUpdatedAt": "2026-05-24",
+        "fetchedAt": "2026-05-24",
+        "confidence": "high",
+        "decisionImpact": "Confirms the single-app architecture and route-based UI/API flow."
+      },
+      {
+        "claim": "The project brief requires key generation, signing, verification, and an education mode that exposes steps.",
+        "sourceUrl": "repo-evidence",
+        "sourceType": "user-provided",
+        "publishedOrUpdatedAt": "2026-05-24",
+        "fetchedAt": "2026-05-24",
+        "confidence": "high",
+        "decisionImpact": "Locks the workflow and the need for visible math explanations."
+      }
+    ]
+  },
+  "motionPaletteDecision": {
+    "productCategorySignal": "document-custody-workbench",
+    "densityDecisionSource": "Use medium-high density because the workflow needs document state, keys, and math visible at once.",
+    "requiredInteractionStates": [
+      "default",
+      "hover",
+      "focus-visible",
+      "active",
+      "disabled",
+      "loading",
+      "empty",
+      "error",
+      "success",
+      "transition"
+    ],
+    "paletteAutopilotRisks": [
+      "dark-slate-default",
+      "cream-beige-default",
+      "purple-blue-gradient-default",
+      "monochrome-template-default",
+      "uniform-card-surface-default",
+      "generic-grid-wallpaper-default",
+      "generic-line-wallpaper-default",
+      "calibration-mark-wallpaper-default",
+      "soft-glow-ai-template-default",
+      "cyber-neon-terminal-default"
+    ],
+    "spatialDecision": "Do not use 3D/canvas by default; the replacement interaction quality is crisp state transitions, visible evidence rails, and stamped verification feedback."
+  },
+  "aiSafeUiAudit": {
+    "status": "complete-for-internal-brief",
+    "failureDefinition": "AI-safe UI uses template cards, generic marks, decorative grid or line wallpaper, calibration-mark wallpaper, placeholder copy, terminal-only user paths, safe palettes, glow backgrounds, or copied scaffold composition.",
+    "interchangeabilityTest": "If this UI can be renamed from dsasign to another product category without changing composition, palette, iconography, and motion, revise it.",
+    "requiredProductSpecificSignals": [
+      "document state treatment",
+      "seal-like motion or state behavior",
+      "evidence-first morphology"
+    ],
+    "paletteExplorationRule": "Use a visually exploratory product-derived palette with WCAG contrast and status clarity.",
+    "backgroundPatternRule": "Background marks must serve a named product function; never use grid, line, or calibration-mark backgrounds as first-output filler.",
+    "aiColorAudit": {
+      "status": "complete-for-internal-brief",
+      "failureDefinition": "AI color drift uses safe defaults before deriving roles from the product anchor.",
+      "autopilotRisks": [
+        "cream-editorial-default",
+        "dark-slate-dashboard-default",
+        "purple-blue-gradient-default",
+        "monochrome-minimal-default",
+        "cyber-neon-terminal-default",
+        "soft-glow-atmosphere-default"
+      ],
+      "requiredEvidence": [
+        "anchor-derived-color-logic",
+        "semantic-role-contrast-beyond-surface-decoration",
+        "product-specific-color-behavior-that-would-not-transfer"
+      ],
+      "reviewQuestion": "Why does this palette belong to this product?"
+    },
+    "motionSpatialCourageAudit": {
+      "status": "complete-for-internal-brief",
+      "defaultStance": "Treat motion, scroll choreography, canvas, WebGL, and 3D as first-class options when they help the product.",
+      "requiredDecisionFields": [
+        "signature-motion-or-interaction",
+        "spatial-or-3d-fit",
+        "performance-and-reduced-motion-fallback"
+      ],
+      "rejectionRule": "State a product reason and replacement interaction quality before omitting 3D/canvas.",
+      "reviewQuestion": "Is the interaction as expressive as the product can responsibly support?"
+    }
+  },
+  "productionContentPolicy": {
+    "status": "complete-for-internal-brief",
+    "userFacingCopyRule": "Visible UI copy must be product-ready and task-specific. Do not ship testing, demo, sample, placeholder, lorem, TODO, coming soon, or scaffold labels unless they are real product states.",
+    "terminalDependencyRule": "User-facing workflows must be operable through the UI unless the product is explicitly a CLI, developer tool, or operational runbook.",
+    "allowedExceptions": [
+      "test-harness-only",
+      "documented-empty-state",
+      "admin-or-devtool-diagnostic-surface",
+      "explicit-user-requested-prototype"
+    ],
+    "reviewQuestion": "Can this UI be shipped to real users without removing test/demo copy or terminal-only workflow dependencies?"
+  },
+  "libraryResearchStatus": "pending-verification",
+  "libraryDecisions": [
+    {
+      "library": "existing Next.js / React / Tailwind / shadcn-style primitives",
+      "purpose": "Use the installed stack and refine the visual language around the product anchor instead of adding new framework layers.",
+      "verifiedAt": null,
+      "sourceUrl": null,
+      "stableVersion": null,
+      "fallbackIfUnavailable": "Use native CSS, browser APIs, or existing dependencies.",
+      "selectionPolicy": "Do not default to shadcn, native-only, Tailwind-only, or dependency avoidance by habit; choose only what fits the product.",
+      "officialScaffolderPolicy": "For fresh projects, prefer official setup commands when they create the supported project shape.",
+      "frameworkNeutralityPolicy": "Next.js, Vite, Astro, React Router, SvelteKit, Laravel, and plain HTML are candidates, not defaults or forbidden choices."
+    }
+  ],
+  "tokenSystem": {
+    "sourceOfTruth": "docs/design-intent.json",
+    "taxonomyOrder": ["primitive", "semantic", "component"],
+    "primitiveColorSpace": "OKLCH",
+    "requireSemanticAliases": true,
+    "semanticAliasesMutableWithoutComponentRewrite": true,
+    "componentTokensConsumeSemantic": true,
+    "forbidDirectComponentPrimitiveBypass": true,
+    "aliasReferenceStyle": "brace-reference",
+    "fallbackPolicy": {
+      "forbidRawHexOutsidePrimitives": true,
+      "forbidRawSpacingOutsidePrimitives": true,
+      "requireDocumentedExceptionForLegacyBypass": true
+    },
+    "tokenLockingPolicy": {
+      "defaultLockState": "semantic-roles-locked-primitives-flexible",
+      "lockedByDefault": [
+        "semantic-role-purpose",
+        "accessibility-floor",
+        "state-role-meaning"
+      ],
+      "flexibleByDefault": [
+        "exact-color-values",
+        "font-family",
+        "radius-values",
+        "shadow-values",
+        "component-skin"
+      ],
+      "promotionRule": "Promote flexible tokens to locked only when user approval, repo evidence, accessibility validation, or implementation constraints require it."
+    },
+    "namingConstraints": {
+      "forbidCurlyBracesInNames": true,
+      "forbidDotsInNames": true,
+      "forbidSquareBracketsInNames": true
+    }
+  },
+  "colorTruth": {
+    "format": "OKLCH",
+    "allowHexDerivatives": true,
+    "requirePerceptualLightnessCurve": true,
+    "paletteRoles": [
+      "surface",
+      "foreground",
+      "border",
+      "focus",
+      "success",
+      "warning",
+      "error",
+      "data"
+    ],
+    "rolePolicy": "minimum-semantic-scaffold",
+    "rolesAreMinimumScaffold": true,
+    "rolesMustBeAgentDefined": true,
+    "forbidAutopilotPalettesWithoutEvidence": true,
+    "intent": "Choose semantic palette roles from the product context, repo evidence, and accessibility. Reject scaffold or SaaS palette defaults."
+  },
+  "crossViewportAdaptation": {
+    "adaptByRecomposition": true,
+    "touchTargetMinPx": 44,
+    "mutationRules": {
+      "mobile": "Prioritize the first decisive action and collapse support content into stacked sections.",
+      "tablet": "Regroup the three flows instead of shrinking desktop.",
+      "desktop": "Use space for hierarchy and scanability; avoid equal-weight modules without evidence."
+    }
+  },
+  "motionSystem": {
+    "allowMeaningfulMotion": true,
+    "purpose": "Use expressive motion when it improves hierarchy, continuity, feedback, memorability, or confidence.",
+    "seedToneLocked": false,
+    "densitySource": "task-content-brand-device-accessibility",
+    "respectReducedMotion": true
+  },
+  "componentMorphology": {
+    "requireStateBehaviorMatrix": true,
+    "preserveIdentityAcrossViewports": true,
+    "seedBehaviorsRequireRefinement": true,
+    "stateKeys": [
+      "default",
+      "hover",
+      "focus-visible",
+      "active",
+      "disabled",
+      "loading",
+      "empty",
+      "error",
+      "success",
+      "transition"
+    ],
+    "viewportBehavior": {
+      "mobile": "Recompose for touch, task priority, and constrained attention.",
+      "tablet": "Regroup surfaces for medium width without cloning desktop or mobile.",
+      "desktop": "Use space for hierarchy and scanability; avoid template grids."
+    }
+  },
+  "accessibilityPolicy": {
+    "hardComplianceFloor": "WCAG-2.2-AA",
+    "advisoryContrastModel": "APCA",
+    "failOnHardViolations": true,
+    "advisoryFindingsDoNotBlockByDefault": true,
+    "hardRequirements": {
+      "textContrastMinimum": true,
+      "nonTextContrast": true,
+      "useOfColorOnlyProhibited": true,
+      "focusVisible": true,
+      "focusAppearance": true,
+      "targetSizeMinimum": true,
+      "keyboardAccess": true,
+      "reflowRequired": true,
+      "accessibleAuthenticationMinimum": true,
+      "statusMessagesAndDynamicStateAccess": true
+    },
+    "advisoryChecks": {
+      "perceptualContrastReview": true,
+      "darkModeContrastTuning": true,
+      "typographyReadabilityTuning": true
+    }
+  },
+  "designExecutionPolicy": {
+    "representationStrategy": "surface-plan-v1",
+    "seedRefinementRequiredBeforeUiImplementation": true,
+    "requireSurfacePlan": true,
+    "requireComponentGraph": true,
+    "requireViewportMutationPlan": true,
+    "requireInteractionStateMatrix": true,
+    "requireContentPriorityMap": true,
+    "requireTaskFlowNarrative": true,
+    "requireSignatureMoveRationale": true,
+    "requireCreativeCommitmentGate": true,
+    "requireStructuredHandoff": true,
+    "requireRepoEvidenceAlignment": true,
+    "forbidScreenshotDependency": true,
+    "separateRequiredOutcomesFromCandidateMoves": true,
+    "forbidLibraryThemeAsVisualAuthority": true,
+    "forbidLiteralAnchorChromeWithoutProductFunction": true,
+    "handoffFormatVersion": "ui-handoff-v1",
+    "requirePerSurfaceMutationOps": true,
+    "forbidUniformSiblingSurfaceTreatment": true,
+    "zeroBasedRedesignResetsPriorVisualsWhenRequested": true,
+    "semanticReviewFocus": [
+      "distinctiveness-vs-genericity",
+      "contract-fidelity",
+      "hierarchy-and-task-priority",
+      "component-state-behavior",
+      "cross-viewport-mutation"
+    ]
+  },
+  "designExecutionHandoff": {
+    "version": "ui-handoff-v1",
+    "location": "inline-design-intent",
+    "status": "seed-needs-refinement",
+    "seedMode": "structure-first-scaffold",
+    "requiresTaskSpecificRefinement": true,
+    "primaryExperienceGoal": "Define the main web application journey for dsasign from repo evidence, brief, and docs.",
+    "surfacePlan": [
+      {
+        "surfaceId": "landing",
+        "role": "entry and route chooser",
+        "goal": "Move the user into key generation, signing, or verification quickly.",
+        "antiPatterns": ["dashboard-default", "brochure-hero"]
+      },
+      {
+        "surfaceId": "keygen",
+        "role": "cryptographic setup",
+        "goal": "Show prime search, key material, and export affordances.",
+        "antiPatterns": ["blank form", "terminal-only flow"]
+      },
+      {
+        "surfaceId": "sign",
+        "role": "document sealing",
+        "goal": "Upload a document, sign it, and surface the resulting signature.",
+        "antiPatterns": ["generic file uploader", "no visible result state"]
+      },
+      {
+        "surfaceId": "verify",
+        "role": "custody check",
+        "goal": "Upload the document, signature, and public key, then expose the verification decision.",
+        "antiPatterns": ["single spinner state", "opaque invalid result"]
+      }
+    ],
+    "componentGraph": {
+      "nodes": [
+        {
+          "id": "navigation",
+          "role": "shared route switcher",
+          "priority": "high"
+        },
+        {
+          "id": "workflow-panels",
+          "role": "keygen/sign/verify work surfaces",
+          "priority": "high"
+        },
+        {
+          "id": "evidence-rail",
+          "role": "math steps and export state",
+          "priority": "medium"
+        }
+      ],
+      "edges": [
+        {
+          "from": "navigation",
+          "to": "workflow-panels",
+          "relationship": "route-selection"
+        },
+        {
+          "from": "workflow-panels",
+          "to": "evidence-rail",
+          "relationship": "status-and-explanation"
+        }
+      ]
+    },
+    "contentPriorityMap": {
+      "primary": [
+        "route action",
+        "current document or key state",
+        "result or verification decision"
+      ],
+      "secondary": [
+        "math steps",
+        "download/export actions",
+        "supporting explanation"
+      ],
+      "deferred": ["nonessential marketing copy", "decorative embellishment"]
+    },
+    "viewportMutationPlan": {
+      "mobile": {
+        "primaryOperation": "stack-and-prioritize",
+        "requiredSurfaceActions": [
+          "choose-mobile-task-order",
+          "disclose-or-remove-low-priority-content"
+        ],
+        "forbiddenPatterns": ["scale-only-shrink"],
+        "rationale": "Prioritize the active workflow and keep the math legible in one column."
+      },
+      "tablet": {
+        "primaryOperation": "regroup",
+        "requiredSurfaceActions": [
+          "define-medium-width-grouping",
+          "preserve-task-clarity"
+        ],
+        "forbiddenPatterns": ["uniform-module-grid-without-role-change"],
+        "rationale": "Use a split between action and evidence rather than a shrunken desktop."
+      },
+      "desktop": {
+        "primaryOperation": "evidence-first composition",
+        "requiredSurfaceActions": [
+          "use-space-to-improve-hierarchy",
+          "avoid-equalizing-unrelated-content"
+        ],
+        "forbiddenPatterns": ["interchangeable-dashboard-chrome"],
+        "rationale": "Use width for explanation, steps, and export state without losing the main action."
+      }
+    },
+    "interactionStateMatrix": [
+      {
+        "componentId": "workflow-action",
+        "states": [
+          "default",
+          "hover",
+          "focus-visible",
+          "active",
+          "disabled",
+          "loading",
+          "empty",
+          "error",
+          "success",
+          "transition"
+        ]
+      },
+      {
+        "componentId": "evidence-panel",
+        "states": ["default", "loading", "empty", "error", "success"]
+      }
+    ],
+    "taskFlowNarrative": "The user starts with route selection, performs the core action, and then reads the evidence and outcome in place.",
+    "signatureMoveRationale": "The signature move is the seal-like confirmation state that makes signing and verification feel deliberate instead of transactional.",
+    "requireStructuredHandoff": true,
+    "reviewRubric": {
+      "driftSignals": [
+        "generic dashboard chrome",
+        "brochure hero with swapped colors",
+        "placeholder or demo copy",
+        "decorative grid or line wallpaper",
+        "single spinner for every loading state",
+        "terminal-only user flow",
+        "icon wallpaper instead of product evidence"
+      ],
+      "failureTest": "If the screen can be renamed to a different product without changing hierarchy, palette behavior, motion language, and state grammar, it has drifted.",
+      "accessibilityGate": "Focus, keyboard, contrast, status messaging, and target size failures block completion."
+    },
+    "contextHygiene": {
+      "trustedSources": [
+        "intruksi-dsa-elgamal.md",
+        "repo evidence",
+        "current docs"
+      ],
+      "taintedSources": [
+        "old screenshots",
+        "prior-project memory",
+        "generic template aesthetics"
+      ],
+      "rules": [
+        "Use repo evidence and the current brief first.",
+        "Do not copy layout rhythm or palette from external examples without product-fit rationale.",
+        "Keep research vocabulary internal."
+      ]
+    }
+  }
+}
