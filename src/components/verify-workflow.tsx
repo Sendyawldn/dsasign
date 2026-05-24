@@ -14,6 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import type { VerificationRecord } from "@/lib/contracts";
+import { EducationMode } from "./education-mode";
 import { copyText, downloadJson, toPrettyJson } from "./workflow-utils";
 
 type ApiResponse = {
@@ -115,6 +116,23 @@ export function VerifyWorkflow() {
   }
 
   const valid = response?.valid;
+  const verifyEducationPoints = [
+    {
+      title: "1. Rebuild the message",
+      detail:
+        "The uploaded file or hash becomes the same message the signer originally committed to.",
+    },
+    {
+      title: "2. Check the signature math",
+      detail:
+        "The server recomputes the signature relation from r, s, and the public key values.",
+    },
+    {
+      title: "3. Explain the result",
+      detail:
+        "A valid result means the document hash still matches the public key and signature pair.",
+    },
+  ];
 
   return (
     <div className="grid gap-6 xl:grid-cols-[0.95fr_1.05fr]">
@@ -397,36 +415,13 @@ export function VerifyWorkflow() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            {response?.steps?.length ? (
-              <div className="space-y-3">
-                {response.steps.map((step, index) => (
-                  <div
-                    key={`${step.label}-${index}`}
-                    className="rounded-2xl border border-border bg-background/80 p-4"
-                  >
-                    <div className="flex items-start justify-between gap-3">
-                      <div>
-                        <p className="text-sm font-semibold text-foreground">
-                          {step.label}
-                        </p>
-                        <p className="mt-1 text-sm text-muted-foreground">
-                          {step.detail}
-                        </p>
-                      </div>
-                      {step.value ? (
-                        <code className="rounded-full bg-muted px-3 py-1 text-xs font-medium text-foreground">
-                          {step.value}
-                        </code>
-                      ) : null}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="rounded-2xl border border-dashed border-border bg-muted/20 p-6 text-sm text-muted-foreground">
-                The step list appears after a successful verification.
-              </div>
-            )}
+            <EducationMode
+              title="How to read the verification flow"
+              description="Verification is a replay of the signature relationship, so each step explains why the seal is still trusted or rejected."
+              points={verifyEducationPoints}
+              steps={response?.steps}
+              emptyMessage="The step list appears after a successful verification."
+            />
           </CardContent>
         </Card>
       </div>

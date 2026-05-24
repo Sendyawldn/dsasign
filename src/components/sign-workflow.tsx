@@ -14,6 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import type { SignatureRecord } from "@/lib/contracts";
+import { EducationMode } from "./education-mode";
 import { copyText, downloadJson, toPrettyJson } from "./workflow-utils";
 
 type ApiResponse = {
@@ -39,6 +40,24 @@ function formatFileSize(bytes: number) {
 
   return `${(kilobytes / 1024).toFixed(1)} MB`;
 }
+
+const signEducationPoints = [
+  {
+    title: "1. Prepare inputs",
+    detail:
+      "The document hash is the message being sealed, and the private key proves who created the signature.",
+  },
+  {
+    title: "2. Compute the seal",
+    detail:
+      "The server selects the per-signature math values, then derives r and s from the hash and key pair.",
+  },
+  {
+    title: "3. Export evidence",
+    detail:
+      "The response includes the signed payload plus step-by-step notes you can copy into a lesson or report.",
+  },
+];
 
 export function SignWorkflow() {
   const [documentFile, setDocumentFile] = useState<File | null>(null);
@@ -368,36 +387,13 @@ export function SignWorkflow() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            {response?.steps?.length ? (
-              <div className="space-y-3">
-                {response.steps.map((step, index) => (
-                  <div
-                    key={`${step.label}-${index}`}
-                    className="rounded-2xl border border-border bg-background/80 p-4"
-                  >
-                    <div className="flex items-start justify-between gap-3">
-                      <div>
-                        <p className="text-sm font-semibold text-foreground">
-                          {step.label}
-                        </p>
-                        <p className="mt-1 text-sm text-muted-foreground">
-                          {step.detail}
-                        </p>
-                      </div>
-                      {step.value ? (
-                        <code className="rounded-full bg-muted px-3 py-1 text-xs font-medium text-foreground">
-                          {step.value}
-                        </code>
-                      ) : null}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="rounded-2xl border border-dashed border-border bg-muted/20 p-6 text-sm text-muted-foreground">
-                The step list appears after the server returns a signature.
-              </div>
-            )}
+            <EducationMode
+              title="How to read the signature flow"
+              description="The server turns the document hash into a signed record, then returns the same intermediate values that appear in the cryptographic calculation."
+              points={signEducationPoints}
+              steps={response?.steps}
+              emptyMessage="The step list appears after the server returns a signature."
+            />
           </CardContent>
         </Card>
       </div>
