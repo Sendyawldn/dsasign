@@ -41,7 +41,7 @@ export function VerifyWorkflow() {
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState<VerificationRecord | null>(null);
   const [message, setMessage] = useState(
-    "Upload the signed document and the public key to verify the seal.",
+    "Upload a document or enter its hash, then provide the signature and public key fields.",
   );
   const [error, setError] = useState<string | null>(null);
   const [errorDetails, setErrorDetails] = useState<string[]>([]);
@@ -57,7 +57,7 @@ export function VerifyWorkflow() {
     setDocumentFile(null);
     setDocumentInputKey((value) => value + 1);
     setMessage(
-      "Upload the signed document and the public key to verify the seal.",
+      "Upload a document or enter its hash, then provide the signature and public key fields.",
     );
     setError(null);
     setErrorDetails([]);
@@ -120,17 +120,16 @@ export function VerifyWorkflow() {
     {
       title: "1. Rebuild the message",
       detail:
-        "The uploaded file or hash becomes the same message the signer originally committed to.",
+        "The uploaded file or hash must match the original signed message.",
     },
     {
       title: "2. Check the signature math",
       detail:
-        "The server recomputes the signature relation from r, s, and the public key values.",
+        "The server recomputes the relation from r, s, and the public key.",
     },
     {
       title: "3. Explain the result",
-      detail:
-        "A valid result means the document hash still matches the public key and signature pair.",
+      detail: "A valid result means this signature still matches the document.",
     },
   ];
 
@@ -140,8 +139,8 @@ export function VerifyWorkflow() {
         <CardHeader>
           <CardTitle>Verify a seal</CardTitle>
           <CardDescription>
-            Upload the document and provide the signature and public key values
-            to check integrity.
+            Upload a file or enter a document hash, then verify it with the
+            signature and public key.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -188,8 +187,8 @@ export function VerifyWorkflow() {
               <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
                 <span>
                   {documentFile
-                    ? "File input active. The hash fallback will be ignored."
-                    : "No file selected. You can use a document hash instead."}
+                    ? "A file is selected, so the hash field is disabled."
+                    : "No file selected. You can verify with a document hash instead."}
                 </span>
                 {documentFile ? (
                   <Button
@@ -206,7 +205,7 @@ export function VerifyWorkflow() {
             </div>
 
             <div className="grid gap-2">
-              <Label htmlFor="documentHash">Document hash fallback</Label>
+              <Label htmlFor="documentHash">Document hash (optional)</Label>
               <Input
                 id="documentHash"
                 value={documentHash}
@@ -216,8 +215,7 @@ export function VerifyWorkflow() {
                 disabled={Boolean(documentFile)}
               />
               <p className="text-xs text-muted-foreground">
-                Paste a hash only when you are not uploading the document
-                itself.
+                Use a hash only when no file is selected.
               </p>
             </div>
 
@@ -285,9 +283,8 @@ export function VerifyWorkflow() {
             </div>
 
             <div className="rounded-2xl border border-dashed border-border bg-muted/30 p-4 text-sm text-muted-foreground">
-              Verification checks the document hash against the signature and
-              public key. The result is shown as valid or invalid with an
-              explanation.
+              Enter the signature and public key values here. If you upload a
+              file, the API hashes it for you.
             </div>
 
             <div className="flex flex-wrap gap-3">
@@ -301,13 +298,13 @@ export function VerifyWorkflow() {
                 ) : (
                   <ShieldAlert className="size-4" />
                 )}
-                {loading ? "Verifying" : "Verify signature"}
+                {loading ? "Verifying" : "Check signature"}
               </Button>
             </div>
 
             {!hasDocumentInput ? (
               <p className="text-sm text-rose-600">
-                Upload a document or provide a document hash before verifying.
+                Upload a document or enter its hash before verifying.
               </p>
             ) : null}
           </form>

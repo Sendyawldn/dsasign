@@ -45,17 +45,17 @@ const signEducationPoints = [
   {
     title: "1. Prepare inputs",
     detail:
-      "The document hash is the message being sealed, and the private key proves who created the signature.",
+      "The document hash is the message, and the private key proves who sealed it.",
   },
   {
     title: "2. Compute the seal",
     detail:
-      "The server selects the per-signature math values, then derives r and s from the hash and key pair.",
+      "The server computes the per-signature values, then derives r and s from the hash and key pair.",
   },
   {
     title: "3. Export evidence",
     detail:
-      "The response includes the signed payload plus step-by-step notes you can copy into a lesson or report.",
+      "The response includes the signature payload and the supporting steps.",
   },
 ];
 
@@ -70,7 +70,7 @@ export function SignWorkflow() {
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState<SignatureRecord | null>(null);
   const [message, setMessage] = useState(
-    "Upload a document and paste the private key values to seal it.",
+    "Upload a document or enter its hash, then provide the private key fields.",
   );
   const [error, setError] = useState<string | null>(null);
   const [errorDetails, setErrorDetails] = useState<string[]>([]);
@@ -83,7 +83,7 @@ export function SignWorkflow() {
     setDocumentFile(null);
     setDocumentInputKey((value) => value + 1);
     setMessage(
-      "Upload a document and paste the private key values to seal it.",
+      "Upload a document or enter its hash, then provide the private key fields.",
     );
     setError(null);
     setErrorDetails([]);
@@ -145,7 +145,7 @@ export function SignWorkflow() {
         <CardHeader>
           <CardTitle>Seal a document</CardTitle>
           <CardDescription>
-            Upload the file or provide a document hash, then sign it with the
+            Upload a file or enter a document hash, then sign it with your
             private key.
           </CardDescription>
         </CardHeader>
@@ -191,8 +191,8 @@ export function SignWorkflow() {
               <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
                 <span>
                   {documentFile
-                    ? "File input active. The hash fallback will be ignored."
-                    : "No file selected. You can use a document hash instead."}
+                    ? "A file is selected, so the hash field is disabled."
+                    : "No file selected. You can sign with a document hash instead."}
                 </span>
                 {documentFile ? (
                   <Button
@@ -209,7 +209,7 @@ export function SignWorkflow() {
             </div>
 
             <div className="grid gap-2">
-              <Label htmlFor="documentHash">Document hash fallback</Label>
+              <Label htmlFor="documentHash">Document hash (optional)</Label>
               <Input
                 id="documentHash"
                 value={documentHash}
@@ -219,8 +219,7 @@ export function SignWorkflow() {
                 disabled={Boolean(documentFile)}
               />
               <p className="text-xs text-muted-foreground">
-                Paste a hash only when you are not uploading the document
-                itself.
+                Use a hash only when no file is selected.
               </p>
             </div>
 
@@ -268,8 +267,8 @@ export function SignWorkflow() {
             </div>
 
             <div className="rounded-2xl border border-dashed border-border bg-muted/30 p-4 text-sm text-muted-foreground">
-              If you have a generated key bundle, copy the numeric fields here.
-              The API will hash the file for you when a document is uploaded.
+              Use the generated key bundle values here. If you upload a file,
+              the API hashes it for you.
             </div>
 
             <div className="flex flex-wrap gap-3">
@@ -283,13 +282,13 @@ export function SignWorkflow() {
                 ) : (
                   <FileUp className="size-4" />
                 )}
-                {loading ? "Signing" : "Sign document"}
+                {loading ? "Signing" : "Create signature"}
               </Button>
             </div>
 
             {!hasDocumentInput ? (
               <p className="text-sm text-rose-600">
-                Upload a document or provide a document hash before signing.
+                Upload a document or enter its hash before signing.
               </p>
             ) : null}
           </form>
